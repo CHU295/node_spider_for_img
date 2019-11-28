@@ -1,0 +1,21 @@
+{
+  "name": "node_spider_for_img",
+  "version": "1.0.0",
+  "description": "node爬虫获取图片",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "keywords": [
+    "node",
+    "spider"
+  ],
+  "author": "chu295@qq.com",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3"
+  },
+  "devDependencies": {
+    "superagent": "^5.1.1"
+  }
+}
