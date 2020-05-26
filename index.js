@@ -1,7 +1,11 @@
 const superagent = require('superagent')
 const fs = require("fs")
 
-superagent.get('https://api.bilibili.com/x/space/arc/search?mid=72956117&ps=30&tid=0&pn=1&keyword=&order=pubdate&jsonp=jsonp').set({
+let uid = 72956117 // B站uid 修改uid即可获取不同up的美图~
+let size = 30 // 每页多少条
+let pn = 1 // 当前第几页
+
+superagent.get(`https://api.bilibili.com/x/space/arc/search?mid=${uid}&ps=${size}&tid=0&pn=${pn}&keyword=&order=pubdate&jsonp=jsonp`).set({
   'accept': 'application/json, text/plain, */*',
   'accept-encoding': 'gzip, deflate, br',
   'accept-language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7',
@@ -9,7 +13,7 @@ superagent.get('https://api.bilibili.com/x/space/arc/search?mid=72956117&ps=30&t
   'origin': 'https://www.bilibili.com',
   'referer': 'https://www.bilibili.com/v/music/perform/',
   'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36'
-  
+
 }).then(res => {
   let data = JSON.parse(res.text)
   let nums = data.data.list.vlist.length
@@ -20,10 +24,10 @@ superagent.get('https://api.bilibili.com/x/space/arc/search?mid=72956117&ps=30&t
     let name = url.split(/.+\//g)[1] // 获取的hash文件名，带文件格式后缀
     let title = i.title // 原始文件名 新世纪福音战士 OP 残酷な天使のテーゼ 高橋洋子
     let fileType = url.split(/.+\./g)[1] //文件后缀 .png
-    // name = title + '.' + fileType //如果需要输出文件名为原始的，打开这个注释。部分文件名带有特殊字符。可能会导致部分图片保存失败
+    name = title + '.' + fileType //如果需要输出文件名为原始的，打开这个注释。部分文件名带有特殊字符。可能会导致部分图片保存失败
     superagent.get(url).timeout({
       response: 5000,
-      deadline: 10000,
+      deadline: 10000, // 下载超时，正常操作。多试几次即可
     }).end((err, sres) => {
       if (err) {
         console.log('下载文件出错了，错误是：' + err);
